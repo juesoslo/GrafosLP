@@ -1,5 +1,6 @@
 package basicos;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import fabricagrafos.FabricaGrafos;
 import fabricagrafos.FabricaGrafosDirigidosConPeso;
@@ -18,6 +19,9 @@ public class Grafo
 	
 	public Grafo(boolean digido, boolean conPeso)
 	{
+		listaArcos = new ArrayList<Arco>();
+		listaNodos = new ArrayList<Nodo>();
+		
 		setDirigido(digido);
 		setConPeso(conPeso);
 		createFabricaGrafo();
@@ -40,17 +44,23 @@ public class Grafo
 	
 	public Nodo addNodo(String nombre)
 	{
-		return getFabricaGrafos().createNodo(nombre);
+		Nodo nodo = getFabricaGrafos().createNodo(nombre);
+		if(nodo != null) listaNodos.add(nodo);
+		return nodo;
 	}
 	
 	public Arco addArco(Nodo nodo1, Nodo nodo2)
 	{
-		return getFabricaGrafos().createArco(nodo1, nodo2);
+		Arco arco = getFabricaGrafos().createArco(nodo1, nodo2);
+		if(arco != null) listaArcos.add(arco);
+		return arco;
 	}
 	
 	public Arco addArco(Nodo nodo1, Nodo nodo2, int peso)
 	{
-		return getFabricaGrafos().createArco(nodo1, nodo2, peso);
+		Arco arco = getFabricaGrafos().createArco(nodo1, nodo2, peso); 
+		if(arco != null) listaArcos.add(arco);
+		return arco;
 	}
 	
 	
@@ -87,6 +97,23 @@ public class Grafo
 		this.fabricaGrafos = fabricaGrafos;
 	}
 	
+	@Override
+	public String toString() {
+		String texto ="-----------\nEl grafo "+
+			( !isDirigido() ? "no ": "" ) +"es dirigido y "+
+			( !isConPeso()  ? "no tiene peso.": "tiene peso.");
+
+		texto += "\n Nodos: ";
+		for (Nodo nodo : listaNodos) {
+			texto +="\n  -" +nodo;
+		}
+		
+		texto += "\n Arcos: ";
+		for (Arco arco : listaArcos) {
+			texto +="\n  -" +arco;
+		}
+		return texto;
+	}
 	
 	
 }

@@ -59,5 +59,16 @@ public class Arco
 		this.conPeso = conPeso;
 	}
 	
+	@Override
+	public String toString()
+	{
+		String texto = "El arco es " + 
+				( !isDirigido() ? "no ": "" ) +"dirigido, "+
+				( !isConPeso()  ? "no tiene peso,": "pesa " +getPeso()+ ", " )+
+				"y va de " +nodo1+ " a " +nodo2;
+		
+		return texto;
+	}
+	
 	
 }
