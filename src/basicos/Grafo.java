@@ -1,7 +1,7 @@
 package basicos;
 import java.util.ArrayList;
-import java.util.Iterator;
 
+import busqueda.BusquedaGrafos;
 import fabricagrafos.FabricaGrafos;
 import fabricagrafos.FabricaGrafosDirigidosConPeso;
 import fabricagrafos.FabricaGrafosDirigidosSinPeso;
@@ -16,15 +16,26 @@ public class Grafo
 	private boolean dirigido;
 	private boolean conPeso;
 	private FabricaGrafos fabricaGrafos;
+	private String busqueda;
 	
-	public Grafo(boolean digido, boolean conPeso)
+	public Grafo(boolean dirigido, boolean conPeso)
+	{
+		this(dirigido, conPeso, BusquedaGrafos.SIN_BUSQUEDA);
+	}
+	
+	public Grafo(boolean dirigido, boolean conPeso, String busqueda)
 	{
 		listaArcos = new ArrayList<Arco>();
 		listaNodos = new ArrayList<Nodo>();
-		
-		setDirigido(digido);
+		setDirigido(dirigido);
 		setConPeso(conPeso);
+		setBusqueda(busqueda);
 		createFabricaGrafo();
+	}
+	
+	public String buscarNodo( String nombreNodo )
+	{
+		return getFabricaGrafos().buscar(nombreNodo);
 	}
 	
 	private void createFabricaGrafo()
@@ -40,6 +51,8 @@ public class Grafo
 		
 		else if(!isDirigido() && !isConPeso())
 			fabricaGrafos = new FabricaGrafosNoDirigidosSinPeso();
+		
+		fabricaGrafos.createBusquedaGrafos(getBusqueda());
 	}
 	
 	public Nodo addNodo(String nombre)
@@ -97,6 +110,16 @@ public class Grafo
 		this.fabricaGrafos = fabricaGrafos;
 	}
 	
+	
+	
+	public String getBusqueda() {
+		return busqueda;
+	}
+
+	public void setBusqueda(String busqueda) {
+		this.busqueda = busqueda;
+	}
+
 	@Override
 	public String toString() {
 		String texto ="-----------\nEl grafo "+
@@ -112,6 +135,8 @@ public class Grafo
 		for (Arco arco : listaArcos) {
 			texto +="\n  -" +arco;
 		}
+		
+		texto += "\n Búsqueda: " +busqueda;
 		return texto;
 	}
 	
